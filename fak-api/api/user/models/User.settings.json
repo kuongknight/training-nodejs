@@ -45,6 +45,14 @@
     "filesCreated": {
       "collection": "upload",
       "via": "createdBy"
+    },
+    "books": {
+      "collection": "book",
+      "via": "contributors"
+    },
+    "cars": {
+      "collection": "car",
+      "via": "contributors"
     }
   },
   "autoCreatedAt": true,
