@@ -11,6 +11,10 @@ import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { push } from 'react-router-redux';
 import config from '../../config';
 import { asyncConnect } from 'redux-async-connect';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+injectTapEventPlugin();
 
 @asyncConnect([{
   promise: ({store: {dispatch, getState}}) => {
@@ -37,32 +41,34 @@ export default class App extends Component {
     const styles = require('./App.scss');
 
     return (
-      <div className={styles.app}>
-        <Helmet {...config.app.head}/>
-        <Navbar fixedTop>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <IndexLink to="/" activeStyle={{color: '#33e0ff'}}>
-                <div className={styles.brand}/>
-                <span>{config.app.title}</span>
-              </IndexLink>
-            </Navbar.Brand>
-            <Navbar.Toggle/>
-          </Navbar.Header>
-          <Navbar.Collapse>
-            <Nav navbar>
-              <LinkContainer to="/about">
-                <NavItem eventKey={1}>About Us</NavItem>
-              </LinkContainer>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
+      <MuiThemeProvider>
+        <div className={styles.app}>
+          <Helmet {...config.app.head}/>
+          <Navbar fixedTop>
+            <Navbar.Header>
+              <Navbar.Brand>
+                <IndexLink to="/" activeStyle={{color: '#33e0ff'}}>
+                  <div className={styles.brand}/>
+                  <span>{config.app.title}</span>
+                </IndexLink>
+              </Navbar.Brand>
+              <Navbar.Toggle/>
+            </Navbar.Header>
+            <Navbar.Collapse>
+              <Nav navbar>
+                <LinkContainer to="/about">
+                  <NavItem eventKey={1}>About Us</NavItem>
+                </LinkContainer>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
 
-        <div className={styles.appContent}>
-          {this.props.children}
+          <div className={styles.appContent}>
+            {this.props.children}
+          </div>
+          <InfoBar/>
         </div>
-        <InfoBar/>
-      </div>
+      </MuiThemeProvider>
     );
   }
 }
