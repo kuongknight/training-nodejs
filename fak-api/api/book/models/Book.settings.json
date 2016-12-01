@@ -4,7 +4,18 @@
   "displayedAttribute": "",
   "schema": true,
   "attributes": {
-
+    "name": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "totalPage": {
+      "type": "integer"
+    },
+    "active" : {
+      "type": "bool"
+    },
     "createdBy": {
       "model": "user"
     },

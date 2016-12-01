@@ -2,8 +2,6 @@ import React, {Component, PropTypes} from 'react'
 import { Field, reduxForm } from 'redux-form'
 import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton';
 import validate, { asyncValidate} from './bookValidation'
 
@@ -11,7 +9,7 @@ import validate, { asyncValidate} from './bookValidation'
   form: 'book',
   validate,
   asyncValidate,
-  asyncBlurFields: ['email']
+  asyncBlurFields: ['name']
 })
 
 export default class BookForm extends Component {
@@ -47,16 +45,6 @@ export default class BookForm extends Component {
         onCheck={input.onChange}/>
     )
 
-    const renderSelectField = ({ input, label, meta: { touched, error }, children, ...custom }) => (
-      <SelectField
-        floatingLabelText={label}
-        errorText={touched && error}
-        {...input}
-        onChange={(event, index, value) => input.onChange(value)}
-        children={children}
-        {...custom}/>
-    )
-
     return (
       <form onSubmit={handleSubmit}>
         <div>
@@ -66,20 +54,10 @@ export default class BookForm extends Component {
           <Field name="title" component={renderTextField} label="Book Title"/>
         </div>
         <div>
-          <Field name="email" component={renderTextField} label="Email"/>
+          <Field name="totalPage" component={renderTextField} label="Total Page"/>
         </div>
         <div>
-          <Field name="favoriteColor" component={renderSelectField} label="Favorite Color">
-            <MenuItem value={'ff0000'} primaryText="Red"/>
-            <MenuItem value={'00ff00'} primaryText="Green"/>
-            <MenuItem value={'0000ff'} primaryText="Blue"/>
-          </Field>
-        </div>
-        <div>
-          <Field name="employed" component={renderCheckbox} label="Employed"/>
-        </div>
-        <div>
-          <Field name="notes" component={renderTextField} label="Notes" multiLine rows={2}/>
+          <Field name="active" component={renderCheckbox} label="Active"/>
         </div>
         <div>
           <RaisedButton type="submit" label="Submit" primary disabled={pristine || submitting} />

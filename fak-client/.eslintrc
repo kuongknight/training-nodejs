@@ -18,7 +18,8 @@
     "no-console": 0,
     "no-alert": 0,
     "no-unused-vars": [1, { "vars": "all", "args": "after-used" }],
-    "semi": 0
+    "semi": 0,
+    "no-throw-literal": 0
   },
   "plugins": [
     "react", "import"
