@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Helmet from 'react-helmet';
-import BookForm from 'components/BookForm/BookForm'
-
+import Book from './Book'
 export default class About extends Component {
 
   state = {
@@ -18,7 +17,7 @@ export default class About extends Component {
         <h1>Demo</h1>
         <Helmet title="About Us"/>
         {showKitten && <div><img src={kitten}/></div>}
-        <BookForm handleSubmit={this.handleToggleKitten.bind(this)} />
+        <Book />
       </div>
     );
   }

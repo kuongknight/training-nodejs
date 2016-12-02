@@ -5,6 +5,23 @@ import Checkbox from 'material-ui/Checkbox'
 import RaisedButton from 'material-ui/RaisedButton';
 import validate, { asyncValidate} from './bookValidation'
 
+const renderTextField = ({ input, label, meta: { touched, error, asyncValidating }, ...custom }) => (
+  <div>
+    <TextField hintText={label}
+      floatingLabelText={label}
+      errorText={touched && error}
+      {...input}
+      {...custom}
+    />
+    { asyncValidating && <i className={'fa fa-cog fa-spin cog'}/> }
+  </div>
+)
+const renderCheckbox = ({ input, label }) => (
+  <Checkbox label={label}
+    checked={input.value ? true : false}
+    onCheck={input.onChange}/>
+)
+
 @reduxForm({
   form: 'book',
   validate,
@@ -19,6 +36,7 @@ export default class BookForm extends Component {
     reset: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired
   }
+
   render() {
     const {
       handleSubmit,
@@ -27,26 +45,8 @@ export default class BookForm extends Component {
       submitting
       } = this.props
     const styles = require('./BookForm.scss');
-    const renderTextField = ({ input, label, meta: { touched, error, asyncValidating }, ...custom }) => (
-      <div>
-        <TextField hintText={label}
-          floatingLabelText={label}
-          errorText={touched && error}
-          {...input}
-          {...custom}
-        />
-        { asyncValidating && <i className={'fa fa-cog fa-spin ' + styles.cog}/> }
-      </div>
-    )
-
-    const renderCheckbox = ({ input, label }) => (
-      <Checkbox label={label}
-        checked={input.value ? true : false}
-        onCheck={input.onChange}/>
-    )
-
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.bookForm}>
         <div>
           <Field name="name" component={renderTextField} label="Book Name"/>
         </div>
