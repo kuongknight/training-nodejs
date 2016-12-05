@@ -19,7 +19,6 @@ injectTapEventPlugin();
 @asyncConnect([{
   promise: ({store: {dispatch, getState}}) => {
     const promises = [];
-
     if (!isInfoLoaded(getState())) {
       promises.push(dispatch(loadInfo()));
     }
@@ -56,8 +55,8 @@ export default class App extends Component {
             </Navbar.Header>
             <Navbar.Collapse>
               <Nav navbar>
-                <LinkContainer to="/about">
-                  <NavItem eventKey={1}>About Us</NavItem>
+                <LinkContainer to="/book">
+                  <NavItem eventKey={1}>Book</NavItem>
                 </LinkContainer>
               </Nav>
             </Navbar.Collapse>

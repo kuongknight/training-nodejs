@@ -28,6 +28,12 @@ const proxy = httpProxy.createProxyServer({
   ws: true
 });
 
+const strapiURL = 'http://' + config.strapiHost + ':' + config.strapiPort;
+const strapi = httpProxy.createProxyServer({
+  target: strapiURL,
+  ws: false
+});
+
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 
@@ -37,7 +43,9 @@ app.use(Express.static(path.join(__dirname, '..', 'static')));
 app.use('/api', (req, res) => {
   proxy.web(req, res, {target: targetUrl});
 });
-
+app.use('/strapi', (req, res) => {
+  strapi.web(req, res, {target: strapiURL});
+});
 app.use('/ws', (req, res) => {
   proxy.web(req, res, {target: targetUrl + '/ws'});
 });
