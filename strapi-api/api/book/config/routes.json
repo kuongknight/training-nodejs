@@ -1,0 +1,39 @@
+{
+  "routes": {
+    "GET /book": {
+      "controller": "Book",
+      "action": "find",
+      "policies": []
+    },
+    "GET /book/:id": {
+      "controller": "Book",
+      "action": "findOne",
+      "policies": []
+    },
+    "POST /book": {
+      "controller": "Book",
+      "action": "create",
+      "policies": []
+    },
+    "PUT /book/:id": {
+      "controller": "Book",
+      "action": "update",
+      "policies": []
+    },
+    "DELETE /book/:id": {
+      "controller": "Book",
+      "action": "destroy",
+      "policies": []
+    },
+    "POST /book/:parentId/:relation": {
+      "controller": "Book",
+      "action": "createRelation",
+      "policies": []
+    },
+    "DELETE /book/:parentId/:relation/:id": {
+      "controller": "Book",
+      "action": "destroyRelation",
+      "policies": []
+    }
+  }
+}

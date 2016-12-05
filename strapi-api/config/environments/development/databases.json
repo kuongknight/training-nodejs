@@ -1,0 +1,20 @@
+{
+  "defaultConnection": "default",
+  "connections": {
+    "default": {
+      "client": "pg",
+      "debug": false,
+      "acquireConnectionTimeout": 60000,
+      "useNullAsDefault": true,
+      "connection": {
+          "host" : "127.0.0.1",
+          "user" : "postgres",
+          "password" : "123456",
+          "database" : "fak"
+      },
+      "migrations": {
+        "tableName": "migrations"
+      }
+    }
+  }
+}
