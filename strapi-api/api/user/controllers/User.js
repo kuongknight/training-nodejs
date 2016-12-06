@@ -15,11 +15,9 @@ module.exports = {
         username: ctx.request.body.username,
         password: MD5(ctx.request.body.password).toString()
       }
-
-      // const user = yield strapi.services.user.findByU_P(query);
-      this.body = yield strapi.services.user.fetch({id: 1});
-      console.log(this.body);
-      if (ctx.body && ctx.body.username ){
+      const user = yield strapi.services.user.findByU_P(query);
+      console.log("user " + user);
+      if (user && user.username ){
         let token = MD5(new Date() +  user.username).toString();
         ctx.body = {username: user.username, token: token};
         client.hmset(token, user);

@@ -43,11 +43,9 @@ module.exports = {
    */
 
    findByU_P: function (params) {
-     console.log("call find");
      return new Promise(function(resolve, reject) {
        User.findOne(params)
-        .exec(function (err, user) {
-          console.log("exec");
+        .then(function (err, user) {
           if (err) {
             reject(err);
           }
@@ -62,7 +60,6 @@ module.exports = {
         withRelated: _.keys(_.groupBy(_.reject(strapi.models.user.associations, {autoPopulate: false}), 'alias'))
       })
         .then(function(user) {
-          console.log(user);
           resolve(user);
         })
         .catch(function(err) {
