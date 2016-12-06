@@ -1,0 +1,20 @@
+{
+  "connection": "default",
+  "tableName": "user",
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "username": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    },
+    "active" : {
+      "type": "bool"
+    }
+  }
+}

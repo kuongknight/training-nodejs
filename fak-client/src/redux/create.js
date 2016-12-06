@@ -3,12 +3,13 @@ import createMiddleware from './middleware/clientMiddleware';
 import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
 import Immutable from 'immutable';
+import loginMiddleware from './middleware/loginMiddleware'
 
 export default function createStore(history, client, data) {
   // Sync dispatched route actions to the history
   const reduxRouterMiddleware = routerMiddleware(history);
 
-  const middleware = [createMiddleware(client), reduxRouterMiddleware, thunk];
+  const middleware = [createMiddleware(client), reduxRouterMiddleware, thunk, loginMiddleware];
 
   let finalCreateStore;
   if (__DEVELOPMENT__ && __CLIENT__ && __DEVTOOLS__) {

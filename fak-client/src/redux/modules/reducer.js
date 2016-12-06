@@ -5,11 +5,13 @@ import { pagination } from 'violet-paginator';
 import {reducer as form} from 'redux-form';
 import info from './info';
 import book from './book'
+import auth from './auth'
 export default combineReducers({
   routing: routerReducer,
   reduxAsyncConnect,
   form,
   info,
   pagination,
-  book
+  book,
+  auth
 });

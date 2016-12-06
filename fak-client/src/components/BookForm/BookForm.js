@@ -48,7 +48,7 @@ export default class BookForm extends Component {
     editing: PropTypes.object.isRequired,
     editStart: PropTypes.func.isRequired,
     saveError: PropTypes.object,
-    form: PropTypes.string.isRequired,
+    form: PropTypes.string.isRequired
   }
 
   render() {

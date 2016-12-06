@@ -62,7 +62,7 @@ export default class BookList extends Component {
             last
             ellipsis
             boundaryLinks
-            items={20}
+            items={7}
             maxButtons={5}
             activePage={1}
             onSelect={this.handledSelect} />

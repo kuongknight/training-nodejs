@@ -1,0 +1,44 @@
+{
+  "routes": {
+    "POST /login": {
+      "controller": "User",
+      "action": "login",
+      "policies": []
+    },
+    "GET /user": {
+      "controller": "User",
+      "action": "find",
+      "policies": []
+    },
+    "GET /user/:id": {
+      "controller": "User",
+      "action": "findOne",
+      "policies": []
+    },
+    "POST /user": {
+      "controller": "User",
+      "action": "create",
+      "policies": []
+    },
+    "PUT /user/:id": {
+      "controller": "User",
+      "action": "update",
+      "policies": []
+    },
+    "DELETE /user/:id": {
+      "controller": "User",
+      "action": "destroy",
+      "policies": []
+    },
+    "POST /user/:parentId/:relation": {
+      "controller": "User",
+      "action": "createRelation",
+      "policies": []
+    },
+    "DELETE /user/:parentId/:relation/:id": {
+      "controller": "User",
+      "action": "destroyRelation",
+      "policies": []
+    }
+  }
+}
