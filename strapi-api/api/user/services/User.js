@@ -44,13 +44,13 @@ module.exports = {
 
    findByU_P: function (params) {
      return new Promise(function(resolve, reject) {
-       User.findOne(params)
-        .then(function (err, user) {
-          if (err) {
-            reject(err);
-          }
-          resolve(user);
-        });
+       User.where(params).fetch()
+         .then(function(user) {
+           resolve(user ? user.toJSON() : null);
+         })
+         .catch(function(err) {
+           reject(err);
+         });
      });
    },
 

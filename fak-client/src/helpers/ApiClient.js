@@ -8,7 +8,7 @@ function formatUrl(path) {
   if (adjustedPath.indexOf('strapi') > -1) {
     if (__SERVER__) {
       // Prepend host and port of the API server to the path.
-      return 'http://' + config.strapiHost + ':' + config.strapiPort + adjustedPath;
+      return 'http://' + config.strapiHost + ':' + config.strapiPort + adjustedPath.replace('strapi/', '');
     }
     return adjustedPath;
   }

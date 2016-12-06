@@ -5,6 +5,11 @@
       "action": "login",
       "policies": []
     },
+    "GET /loadAuth": {
+      "controller": "User",
+      "action": "loadAuth",
+      "policies": []
+    },
     "GET /user": {
       "controller": "User",
       "action": "find",

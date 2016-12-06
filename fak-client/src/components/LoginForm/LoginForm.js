@@ -69,7 +69,7 @@ export default class LoginForm extends Component {
               <RaisedButton type="button" label="Sign Up" onClick={reset} style={{margin: 12}} />
             </div>
           </form>
-        {loginError && <div className="text-danger">{loginError.text}</div>}
+        {loginError && <div className="text-danger">{loginError}</div>}
       </div>
     )
   }
