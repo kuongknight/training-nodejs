@@ -8,16 +8,17 @@ import {connect} from 'react-redux'
 import * as bookActions from 'redux/modules/book';
 
 const renderTextField = ({ input, label, meta: { touched, error, asyncValidating }, ...custom }) => (
-  <div>
-    <TextField hintText={label}
-      floatingLabelText={label}
-      errorText={touched && error}
-      {...input}
-      {...custom}
-    />
-    { asyncValidating && <i className={'fa fa-cog fa-spin cog'}/> }
-  </div>
-)
+        <div>
+          <TextField hintText={label}
+            floatingLabelText={label}
+            errorText={touched && error}
+            {...input}
+            {...custom}
+          />
+          { asyncValidating && <i className={'fa fa-cog fa-spin cog'}/> }
+        </div>
+  )
+
 const renderCheckbox = ({ input, label }) => (
   <Checkbox label={label}
     checked={input.value ? true : false}
@@ -56,26 +57,26 @@ export default class BookForm extends Component {
       reset,
       pristine,
       submitting,
-      editing,
+      editing: {show},
       editStart,
       form,
       saveError: { [form]: saveError }
       } = this.props
-    const addBook = () => editStart(0);
+    const addBook = () => editStart(null);
     const styles = require('./BookForm.scss');
     return (
       <div>
-        { !editing.show ? <RaisedButton type="button" label="Add Book" primary onClick={addBook} /> :
+        { !show ? <RaisedButton type="button" label="Add Book" primary onClick={addBook} /> :
           <form onSubmit={handleSubmit} className={styles.bookForm}>
             <Field name="id" type="hidden" component="input" />
             <div>
-              <Field name="name" component={renderTextField} label="Book Name"/>
+              <Field name="name" component={renderTextField} label="Book Name" />
             </div>
             <div>
-              <Field name="title" component={renderTextField} label="Book Title"/>
+              <Field name="title" component={renderTextField} label="Book Title" />
             </div>
             <div>
-              <Field name="totalPage" component={renderTextField} label="Total Page"/>
+              <Field name="totalPage" component={renderTextField} label="Total Page" />
             </div>
             <div>
               <Field name="active" component={renderCheckbox} label="Active"/>

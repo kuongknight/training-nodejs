@@ -37,8 +37,9 @@ export default class Book extends Component {
       })
   }
   render() {
+    const styles = require('./Book.scss');
     return (
-      <Grid>
+      <Grid className={styles.book}>
           <Helmet title="Book"/>
           <BookForm onSubmit={this.handleSubmit} />
           <BookList />
