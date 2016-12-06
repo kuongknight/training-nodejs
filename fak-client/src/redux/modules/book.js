@@ -70,7 +70,7 @@ export default function reducer(state = initialState, action = {}) {
         },
         saveError: {
           ...state.saveError,
-          [action.id]: null
+          text: null
         }
       };
     case SAVE_FAIL:
@@ -78,7 +78,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         saveError: {
           ...state.saveError,
-          [action.id]: action.error
+          text: action.error
         }
       } : state;
     case DEL:
@@ -90,7 +90,7 @@ export default function reducer(state = initialState, action = {}) {
         data: newData,
         saveError: {
           ...state.saveError,
-          [action.id]: null
+          text: null
         }
       };
     case DEL_FAIL:
@@ -98,7 +98,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         saveError: {
           ...state.saveError,
-          [action.id]: action.error
+          text: action.error
         }
       } : state;
     default:
