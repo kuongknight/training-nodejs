@@ -10,6 +10,11 @@
       "action": "loadAuth",
       "policies": []
     },
+    "GET /logout": {
+      "controller": "User",
+      "action": "logout",
+      "policies": []
+    },
     "GET /user": {
       "controller": "User",
       "action": "find",

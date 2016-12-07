@@ -52,7 +52,6 @@ export default class LoginForm extends Component {
       } = this.props
     const styles = require('./LoginForm.scss');
     return (
-      <div>
           <form onSubmit={handleSubmit} className={styles.loginForm}>
             <Field name="id" type="hidden" component="input" />
             <div>
@@ -65,12 +64,13 @@ export default class LoginForm extends Component {
               <Field name="remember" component={renderCheckbox} label="Remember"/>
             </div>
             <div>
+              {loginError && <div className="text-danger">{loginError.response.text}</div>}
+            </div>
+            <div>
               <RaisedButton type="submit" label="Sigin" primary disabled={pristine || submitting} />
               <RaisedButton type="button" label="Sign Up" onClick={reset} style={{margin: 12}} />
             </div>
-          </form>
-        {loginError && <div className="text-danger">{loginError}</div>}
-      </div>
+        </form>
     )
   }
 }

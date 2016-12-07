@@ -9,40 +9,76 @@ var client = redis.createClient();
 module.exports = {
 
   login: function * () {
-    const ctx = this;
-    try {
-      let query = {
-        username: ctx.request.body.username,
-        password: MD5(ctx.request.body.password).toString()
-      }
-      let user = yield strapi.services.user.findByU_P(query);
-      console.log("fak");
-      console.log(user);
-      if (user && user.username ){
-        let token = MD5(new Date() +  user.username).toString();
-        ctx.body = {username: user.username, token: token};
-        client.hmset(token, user);
-      }else {
+      const ctx = this;
+      try {
+        let username = ctx.request.body.username;
+        let password = ctx.request.body.password;
+        let remember = ctx.request.body.remember;
+        if (username && password ) {
+          let user = yield strapi.services.user.findByU_P({
+            username: username,
+            password: MD5(password).toString()
+          });
+          if (user && user.username ){
+            let token = MD5(new Date() +  user.username).toString();
+            ctx.body = {username: user.username, token: token};
+            client.hmset(token, user);
+            if (!remember) {
+              client.expire(token, 1800);
+            }
+            return ctx;
+          }
+        }
+        } catch (err) {
+          ctx.status = 403;
+          ctx.body = err;
+        }
         ctx.status = 403;
-        ctx.body = "Login failed!";
-      }
-    } catch (err) {
-      console.log(err);
-      ctx.status = 403;
-      ctx.body = err;
-    }
-    return ctx;
+        ctx.body = "Wrong username or password!";
+        return ctx;
   },
   loadAuth: function * () {
+        const ctx = this;
+        let isAuthencation = false;
+        try {
+          let userCookie = ctx.cookies.get("session_user");
+          if (userCookie ) {
+            let user = JSON.parse(decodeURIComponent(userCookie));
+            if (user && user.token ){
+              let obj = yield new Promise(function(resolve, reject) {
+                   client.hgetall(user.token, function(error, object) {
+                    if(object) {
+                      resolve(object);
+                    }
+                    if(error) {
+                      reject(error);
+                    }
+                });
+              });
+              if (obj && obj.username) {
+                ctx.body = user;
+                return ctx;
+                }
+              }
+            }
+          } catch (err) {
+            ctx.status = 403;
+            ctx.body = err;
+          }
+        ctx.status = 403;
+        ctx.body = "NotFound!";
+        return ctx;
+  },
+
+  logout: function * () {
     const ctx = this;
-    let isAuthencation = false;
     try {
       let userCookie = ctx.cookies.get("session_user");
       if (userCookie ) {
         let user = JSON.parse(decodeURIComponent(userCookie));
         if (user && user.token ){
           let obj = yield new Promise(function(resolve, reject) {
-               client.hgetall(user.token, function(error, object) {
+               client.del(user.token, function(error, object) {
                 if(object) {
                   resolve(object);
                 }
@@ -51,29 +87,14 @@ module.exports = {
                 }
             });
           });
-          if (obj && obj.username) {
-            isAuthencation = true;
-            ctx.body = user;
-          }
         }
       }
+      ctx.body = {};
     } catch (err) {
-      ctx.status = 403;
+      ctx.status = 500;
       ctx.body = err;
     }
-    if (!isAuthencation) {
-      ctx.status = 403;
-      ctx.body = "NotFound!";
-    }
     return ctx;
-  },
-  logout: function * () {
-    try {
-      client.del('frameworks');
-    } catch (err) {
-      this.status = 500;
-      this.body = err;
-    }
   },
 
   /**
