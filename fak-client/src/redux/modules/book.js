@@ -16,7 +16,7 @@ const initialState = {
   loaded: false,
   editing: {show: false, book: null},
   saveError: {}
-};
+}
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {

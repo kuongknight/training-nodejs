@@ -7,9 +7,11 @@ const LOGIN_FAIL = 'auth/LOGIN_FAIL';
 const LOGOUT = 'auth/LOGOUT';
 export const LOGOUT_SUCCESS = 'auth/LOGOUT_SUCCESS';
 const LOGOUT_FAIL = 'auth/LOGOUT_FAIL';
+const TOGGLE_REGISTER = 'auth/TOGGLE_REGISTER';
 
 const initialState = {
-  loaded: false
+  loaded: false,
+  openRegister: false
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -68,6 +70,11 @@ export default function reducer(state = initialState, action = {}) {
         loggingOut: false,
         logoutError: action.error
       };
+    case TOGGLE_REGISTER:
+      return {
+        ...state,
+        openRegister: !state.openRegister,
+      };
     default:
       return state;
   }
@@ -75,6 +82,12 @@ export default function reducer(state = initialState, action = {}) {
 
 export function isLoaded(globalState) {
   return globalState.auth && globalState.auth.loaded;
+}
+
+export function toggleRegister() {
+  return {
+    type: TOGGLE_REGISTER
+  }
 }
 
 export function load() {

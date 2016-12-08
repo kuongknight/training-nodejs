@@ -15,10 +15,12 @@ module.exports = {
         let password = ctx.request.body.password;
         let remember = ctx.request.body.remember;
         if (username && password ) {
+          console.log("ok: "+ password);
           let user = yield strapi.services.user.findByU_P({
             username: username,
             password: MD5(password).toString()
           });
+          console.log(MD5(password).toString());
           if (user && user.username ){
             let token = MD5(new Date() +  user.username).toString();
             ctx.body = {username: user.username, token: token};
