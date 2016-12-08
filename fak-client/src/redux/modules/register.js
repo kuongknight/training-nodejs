@@ -36,5 +36,5 @@ export function save(user) {
     promise: (client) => client.post('/strapi/user', {
       data: user
     })
-  }
+  };
 }
