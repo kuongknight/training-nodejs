@@ -5,6 +5,7 @@
 var MD5 = require("crypto-js/md5");
 var redis = require('redis');
 var client = redis.createClient();
+var _ = require('lodash');
 
 module.exports = {
 
@@ -15,12 +16,10 @@ module.exports = {
         let password = ctx.request.body.password;
         let remember = ctx.request.body.remember;
         if (username && password ) {
-          console.log("ok: "+ password);
           let user = yield strapi.services.user.findByU_P({
             username: username,
             password: MD5(password).toString()
           });
-          console.log(MD5(password).toString());
           if (user && user.username ){
             let token = MD5(new Date() +  user.username).toString();
             ctx.body = {username: user.username, token: token};
@@ -135,11 +134,30 @@ module.exports = {
    */
 
   create: function * () {
+    let ctx = this;
+    let data = ctx.request.body;
     try {
-      this.body = yield strapi.services.user.add(this.request.body);
+      if (data.username && data.password && _.isEqual(data.password, data.rePassword) ) {
+        let user =  {
+          username: data.username,
+          password: MD5(data.password).toString(),
+          active: true
+        }
+        user = yield strapi.services.user.add(user);
+        if (user.username) {
+          user.password = data.password;
+          ctx.body = user;
+          return ctx;
+        }
+      }
     } catch (err) {
-      this.body = err;
+      ctx.body = err;
+      return ctx;
     }
+    ctx.body = "Server not accep!"
+    ctx.status = 500;
+    return ctx;
+
   },
 
   /**

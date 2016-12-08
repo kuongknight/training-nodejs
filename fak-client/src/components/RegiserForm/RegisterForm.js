@@ -65,7 +65,7 @@ export default class RegisterForm extends Component {
             <Field name="rePassword" type="password" component={renderTextField} label="Re password" />
           </div>
           <div>
-              {saveError && <div className="text-danger">{saveError}</div>}
+              {saveError && <div className="text-danger">{saveError.response.text}</div>}
           </div>
           <div>
             <RaisedButton type="submit" label="Submit" primary disabled={pristine || submitting} />

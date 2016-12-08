@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, initialize } from 'redux-form'
 import TextField from 'material-ui/TextField'
 import Checkbox from 'material-ui/Checkbox'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -34,7 +34,7 @@ const renderCheckbox = ({ input, label }) => (
     loginError: state.auth.loginError,
     openRegister: state.auth.openRegister
   }),
-  {toggleRegister: toggleRegisterAction, registerAction: registerAction}
+  {toggleRegister: toggleRegisterAction, registerAction: registerAction, initialize: initialize}
 )
 
 export default class LoginForm extends Component {
@@ -45,13 +45,18 @@ export default class LoginForm extends Component {
     loginError: PropTypes.object,
     openRegister: PropTypes.bool.isRequired,
     toggleRegister: PropTypes.func.isRequired,
-    registerAction: PropTypes.func.isRequired
+    registerAction: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired
   }
   handleSubmitFormRegister = (data) => {
-    console.log(this.props);
-    this.props.registerAction(data);
+    this.props.registerAction(data)
+      .then((result) => {
+        if (result.username && result.password) {
+          this.props.toggleRegister();
+          this.props.initialize('login', result);
+        }
+      })
   }
-
   render() {
     const {
       handleSubmit,

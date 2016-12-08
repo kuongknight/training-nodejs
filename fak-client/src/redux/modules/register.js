@@ -32,7 +32,7 @@ export default function info(state = {}, action = {}) {
 
 export function save(user) {
   return {
-    type: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
+    types: [SAVE, SAVE_SUCCESS, SAVE_FAIL],
     promise: (client) => client.post('/strapi/user', {
       data: user
     })
