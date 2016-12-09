@@ -51,6 +51,7 @@ export default class RegisterForm extends Component {
       saveError,
       toggleRegister
       } = this.props
+    console.log(saveError);
     const styles = require('./RegisterForm.scss');
     return (
       <DialogUI open title="Register From" handleClose={toggleRegister}>

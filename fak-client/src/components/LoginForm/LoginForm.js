@@ -41,7 +41,6 @@ export default class LoginForm extends Component {
   static propTypes = {
     submitting: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    pristine: PropTypes.bool.isRequired,
     loginError: PropTypes.object,
     openRegister: PropTypes.bool.isRequired,
     toggleRegister: PropTypes.func.isRequired,
@@ -60,7 +59,6 @@ export default class LoginForm extends Component {
   render() {
     const {
       handleSubmit,
-      pristine,
       submitting,
       loginError,
       openRegister,
@@ -84,7 +82,7 @@ export default class LoginForm extends Component {
               {loginError && <div className="text-danger">{loginError.response.text}</div>}
             </div>
             <div>
-              <RaisedButton type="submit" label="Sigin" primary disabled={pristine || submitting} />
+              <RaisedButton type="submit" label="Sigin" primary disabled={submitting} />
               <RaisedButton type="button" label="Sign Up" onClick={toggleRegister} style={{margin: 12}} />
             </div>
         </form>

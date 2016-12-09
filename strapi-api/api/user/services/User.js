@@ -78,7 +78,7 @@ module.exports = {
     return new Promise(function(resolve, reject) {
       User.forge(values).save()
         .then(function(user) {
-          resolve(user);
+          resolve(user? user.toJSON() : null);
         })
         .catch(function(err) {
           reject(err);

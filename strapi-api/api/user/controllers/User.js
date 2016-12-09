@@ -92,7 +92,7 @@ module.exports = {
       }
       ctx.body = {};
     } catch (err) {
-      ctx.status = 500;
+      ctx.status = 400;
       ctx.body = err;
     }
     return ctx;
@@ -144,18 +144,22 @@ module.exports = {
           active: true
         }
         user = yield strapi.services.user.add(user);
-        if (user.username) {
+        console.log("ok");
+        console.log(user);
+        if (user && user.username) {
           user.password = data.password;
           ctx.body = user;
           return ctx;
         }
       }
     } catch (err) {
-      ctx.body = err;
+      console.log(err);
+      ctx.status = 400;
+      ctx.body = "Error when create user, contact admin! Please"
       return ctx;
     }
     ctx.body = "Server not accep!"
-    ctx.status = 500;
+    ctx.status = 400;
     return ctx;
 
   },
