@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import validate, { asyncValidate} from './registerValidation'
 import {connect} from 'react-redux'
 import DialogUI from 'components/DialogUI/DialogUI'
+import * as registerActions from 'redux/modules/register'
 
 const renderTextField = ({ input, label, meta: { touched, error, asyncValidating }, ...custom }) => (
         <div>
@@ -25,9 +26,10 @@ const renderTextField = ({ input, label, meta: { touched, error, asyncValidating
   asyncBlurFields: ['username']
 })
 @connect(
-  state => ({
+  (state) => ({
     saveError: state.register.saveError
-  })
+  }),
+  {...registerActions}
 )
 
 export default class RegisterForm extends Component {
@@ -39,7 +41,6 @@ export default class RegisterForm extends Component {
     saveError: PropTypes.object,
     toggleRegister: PropTypes.func.isRequired
   }
-
   render() {
     const {
       handleSubmit,
@@ -49,21 +50,22 @@ export default class RegisterForm extends Component {
       saveError,
       toggleRegister
       } = this.props
+    console.log(this.props);
     const styles = require('./RegisterForm.scss');
     return (
       <DialogUI open title="Register From" handleClose={toggleRegister}>
         <form onSubmit={handleSubmit} className={styles.register}>
           <div>
-            <Field name="username" component={renderTextField} label="Username" />
+            <Field name="username" component={renderTextField} label="Username" autoFocus />
           </div>
           <div>
             <Field name="password" type="password" component={renderTextField} label="Password" />
           </div>
           <div>
-            <Field name="rePassword" type="password" component={renderTextField} label="Password" />
+            <Field name="rePassword" type="password" component={renderTextField} label="Re password" />
           </div>
           <div>
-              {saveError && <div className="text-danger">{saveError}</div>}
+              {saveError && <div className="text-danger">{saveError.response.text}</div>}
           </div>
           <div>
             <RaisedButton type="submit" label="Submit" primary disabled={pristine || submitting} />

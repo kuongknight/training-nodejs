@@ -6,7 +6,6 @@ import Navbar from 'react-bootstrap/lib/Navbar';
 import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
 import Helmet from 'react-helmet';
-import { InfoBar } from 'components';
 import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
 import { push } from 'react-router-redux';
@@ -89,7 +88,6 @@ export default class App extends Component {
           <div className={styles.appContent}>
             {this.props.children}
           </div>
-          <InfoBar/>
         </div>
       </MuiThemeProvider>
     );

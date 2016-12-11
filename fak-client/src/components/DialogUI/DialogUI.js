@@ -21,7 +21,6 @@ export default class DialogUI extends Component {
       this.setState({open: false});
     }
   }
-
   render() {
     const actions = [
       <FlatButton
@@ -36,7 +35,7 @@ export default class DialogUI extends Component {
       <Dialog
         title={title}
         actions={actions}
-        modal={false}
+        modal
         open={this.state.open}
         onRequestClose={this.handleClose}
       >
