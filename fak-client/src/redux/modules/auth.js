@@ -24,7 +24,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         loading: false,
         loaded: true,
-        user: action.result
+        user: action.result.error ? null : action.result
       };
     case LOAD_FAIL:
       return {

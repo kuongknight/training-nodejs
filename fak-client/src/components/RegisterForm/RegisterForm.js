@@ -50,13 +50,12 @@ export default class RegisterForm extends Component {
       saveError,
       toggleRegister
       } = this.props
-    console.log(this.props);
     const styles = require('./RegisterForm.scss');
     return (
       <DialogUI open title="Register From" handleClose={toggleRegister}>
         <form onSubmit={handleSubmit} className={styles.register}>
           <div>
-            <Field name="username" component={renderTextField} label="Username" autoFocus />
+            <Field name="username" component={renderTextField} label="Username" />
           </div>
           <div>
             <Field name="password" type="password" component={renderTextField} label="Password" />

@@ -9,6 +9,28 @@ var _ = require('lodash');
 
 module.exports = {
 
+  checkName: function * () {
+    const ctx = this;
+    try {
+      let username = ctx.request.body.username;
+      if (username ) {
+        let user = yield strapi.services.user.findByU_P({
+          username: username
+        });
+        if (_.isNull(user)){
+          ctx.body = '';
+          return ctx;
+        }
+      }
+      } catch (err) {
+        ctx.status = 400;
+        ctx.body = err;
+      }
+      ctx.status = 400;
+      ctx.body = "Username is exit";
+      return ctx;
+  },
+
   login: function * () {
       const ctx = this;
       try {
@@ -66,8 +88,7 @@ module.exports = {
             ctx.status = 403;
             ctx.body = err;
           }
-        ctx.status = 403;
-        ctx.body = "NotFound!";
+        ctx.body = {error: "NotFound!"};
         return ctx;
   },
 
@@ -144,8 +165,6 @@ module.exports = {
           active: true
         }
         user = yield strapi.services.user.add(user);
-        console.log("ok");
-        console.log(user);
         if (user && user.username) {
           user.password = data.password;
           ctx.body = user;

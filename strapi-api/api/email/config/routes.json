@@ -1,0 +1,39 @@
+{
+  "routes": {
+    "GET /email": {
+      "controller": "Email",
+      "action": "find",
+      "policies": []
+    },
+    "GET /email/:id": {
+      "controller": "Email",
+      "action": "findOne",
+      "policies": []
+    },
+    "POST /email": {
+      "controller": "Email",
+      "action": "create",
+      "policies": []
+    },
+    "PUT /email/:id": {
+      "controller": "Email",
+      "action": "update",
+      "policies": []
+    },
+    "DELETE /email/:id": {
+      "controller": "Email",
+      "action": "destroy",
+      "policies": []
+    },
+    "POST /email/:parentId/:relation": {
+      "controller": "Email",
+      "action": "createRelation",
+      "policies": []
+    },
+    "DELETE /email/:parentId/:relation/:id": {
+      "controller": "Email",
+      "action": "destroyRelation",
+      "policies": []
+    }
+  }
+}

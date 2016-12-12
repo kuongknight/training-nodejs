@@ -14,7 +14,8 @@ import useScroll from 'scroll-behavior/lib/useStandardScroll';
 
 import getRoutes from './routes';
 
-const client = new ApiClient();
+global.apiClient = new ApiClient();
+const client = global.apiClient;
 const _browserHistory = useScroll(() => browserHistory)();
 const dest = document.getElementById('content');
 const store = createStore(_browserHistory, client, window.__data);

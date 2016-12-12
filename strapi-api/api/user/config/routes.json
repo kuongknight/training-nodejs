@@ -1,5 +1,10 @@
 {
   "routes": {
+    "POST /checkName": {
+      "controller": "User",
+      "action": "checkName",
+      "policies": []
+    },
     "POST /login": {
       "controller": "User",
       "action": "login",

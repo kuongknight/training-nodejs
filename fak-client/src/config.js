@@ -17,8 +17,8 @@ module.exports = Object.assign({
   strapiHost: 'localhost',
   strapiPort: 1337,
   app: {
-    title: 'React Redux Example',
-    description: 'All the modern best practices in one example.',
+    title: 'KuongKnight',
+    description: 'KuongKnight Training!',
     head: {
       titleTemplate: 'React Redux Example: %s',
       meta: [

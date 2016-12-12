@@ -1,0 +1,40 @@
+{
+  "connection": "default",
+  "tableName": "email",
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "from": {
+      "type": "string"
+    },
+    "to": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "html": {
+      "type": "string"
+    },
+    "text": {
+      "type": "string"
+    },
+    "sent": {
+      "type": "boolean"
+    },
+    "lang": {
+      "type": "string",
+      "required": true
+    },
+    "template": {
+      "type": "string",
+      "required": true
+    },
+    "createdBy": {
+      "model": "user"
+    }
+  }
+}

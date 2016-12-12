@@ -8,13 +8,18 @@ const validate = createValidator({
 });
 export default memoize(10)(validate);
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
-
-export const asyncValidate = (values /* , dispatch */ ) => {
-  return sleep(2000) // simulate server latency
-    .then(() => {
-      if ([ 'fuck', 'bicht' ].includes(values.name)) {
-        throw {name: 'That username is block' }
-      }
-    })
+export const asyncValidate = (values) => {
+  const client = global.apiClient;
+  return new Promise((resolve, reject)=> {
+    if (client) {
+      client.post('/strapi/checkName', {
+        data: {username: values.username}
+      }).then(
+        () => resolve(),
+        () => reject({username: 'Username is exit'})
+      )
+    }else {
+      reject({username: 'Client not found!'});
+    }
+  });
 }
