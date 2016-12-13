@@ -15,6 +15,26 @@ const utils = require('strapi-bookshelf/lib/utils/');
  */
 
 module.exports = {
+  /**
+   * Promise to test associations emails.
+   *
+   * @return {Promise}
+   */
+
+  test: function (params) {
+    return new Promise(function(resolve, reject) {
+      Email.forge(params).query(params).fetch({
+        withRelated: ['user']
+      })
+        .then(function(email) {
+          console.log(email.related('user'));
+          resolve(email);
+        })
+        .catch(function(err) {
+          reject(err);
+        });
+    });
+  },
 
   /**
    * Promise to fetch all emails.

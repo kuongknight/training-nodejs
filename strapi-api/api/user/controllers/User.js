@@ -141,7 +141,6 @@ module.exports = {
 
   findOne: function * () {
     try {
-      console.log(this.params);
       this.body = yield strapi.services.user.fetch(this.params)
     } catch (err) {
       this.body = err;

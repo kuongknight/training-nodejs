@@ -13,7 +13,7 @@ module.exports = {
 
   find: function * () {
     try {
-      this.body = yield strapi.services.email.fetchAll(this.query);
+      this.body = yield strapi.services.email.test(this.query);
     } catch (err) {
       this.body = err;
     }
