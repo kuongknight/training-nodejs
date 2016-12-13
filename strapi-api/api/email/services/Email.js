@@ -24,7 +24,7 @@ module.exports = {
   test: function (params) {
     return new Promise(function(resolve, reject) {
       Email.forge(params).query(params).fetch({
-        withRelated: ['user']
+        withRelated: ['createdBy.User']
       })
         .then(function(email) {
           console.log(email.related('user'));
