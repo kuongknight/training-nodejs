@@ -24,10 +24,10 @@ module.exports = {
   test: function (params) {
     return new Promise(function(resolve, reject) {
       Email.forge(params).query(params).fetch({
-        withRelated: ['createdBy.User']
+        withRelated: ['createdBy']
       })
         .then(function(email) {
-          console.log(email.related('user'));
+          console.log(email.related('createdBy'));
           resolve(email);
         })
         .catch(function(err) {
