@@ -2,6 +2,8 @@
 /**
  * A set of functions called "actions" for `User`
  */
+//import ActiveEmailGenerator from 'lib/MailUtil'
+import ActiveEmailGenerator from 'MailUtil'
 var MD5 = require("crypto-js/md5");
 var redis = require('redis');
 var client = redis.createClient();
@@ -11,23 +13,38 @@ module.exports = {
 
   checkName: function * () {
     const ctx = this;
+    let error = {};
     try {
-      let username = ctx.request.body.username;
-      if (username ) {
-        let user = yield strapi.services.user.findByU_P({
-          username: username
-        });
-        if (_.isNull(user)){
-          ctx.body = '';
-          return ctx;
+      let data = ctx.request.body;
+      if (data && (data.username || data.email) ) {
+        let user = null;
+        if (data.username) {
+          user = yield strapi.services.user.findByU_P({
+            username: data.username
+          });
+          if (!_.isNull(user)) {
+              error.username = 'Username is exit';
+          }
+        }
+        if (data.email) {
+          user = yield strapi.services.user.findByU_P({
+            email: data.email
+          });
+          if (!_.isNull(user)) {
+              error.email = 'Email is exit';
+          }
         }
       }
       } catch (err) {
         ctx.status = 400;
         ctx.body = err;
       }
-      ctx.status = 400;
-      ctx.body = "Username is exit";
+      if (!_.isEmpty(error)) {
+        ctx.status = 400;
+        ctx.body = error;
+      }else {
+        ctx.body = {};
+      }
       return ctx;
   },
 
@@ -43,6 +60,11 @@ module.exports = {
             password: MD5(password).toString()
           });
           if (user && user.username ){
+            if (!user.active) {
+              ctx.status = 403;
+              ctx.body = "User dose not active! Please active by email!";
+              return ctx;
+            }
             let token = MD5(new Date() +  user.username).toString();
             ctx.body = {username: user.username, token: token};
             client.hmset(token, user);
@@ -161,10 +183,13 @@ module.exports = {
         let user =  {
           username: data.username,
           password: MD5(data.password).toString(),
-          active: true
+          active: false,
+          email: data.email
         }
         user = yield strapi.services.user.add(user);
         if (user && user.username) {
+        const email = yield new ActiveEmailGenerator(user);
+        strapi.services.email.send(email);
           user.password = data.password;
           ctx.body = user;
           return ctx;

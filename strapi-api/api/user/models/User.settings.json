@@ -13,6 +13,12 @@
     "password": {
       "type": "string"
     },
+    "email": {
+      "type": "string"
+    },
+    "token": {
+      "type": "string"
+    },
     "active" : {
       "type": "bool"
     }

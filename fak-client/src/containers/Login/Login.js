@@ -40,6 +40,7 @@ export default class Login extends Component {
         if (result.username && result.password) {
           this.props.toggleRegister();
           this.props.initialize('login', result);
+          this.handleSubmitLogin(result);
         }
       })
   }

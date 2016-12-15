@@ -23,7 +23,7 @@ const renderTextField = ({ input, label, meta: { touched, error, asyncValidating
   form: 'register',
   validate,
   asyncValidate,
-  asyncBlurFields: ['username']
+  asyncBlurFields: ['username', 'email']
 })
 @connect(
   (state) => ({
@@ -56,6 +56,9 @@ export default class RegisterForm extends Component {
         <form onSubmit={handleSubmit} className={styles.register}>
           <div>
             <Field name="username" component={renderTextField} label="Username" />
+          </div>
+          <div>
+            <Field name="email" component={renderTextField} label="Email" />
           </div>
           <div>
             <Field name="password" type="password" component={renderTextField} label="Password" />

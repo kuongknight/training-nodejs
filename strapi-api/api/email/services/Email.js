@@ -10,11 +10,87 @@ const _ = require('lodash');
 // Strapi utilities.
 const utils = require('strapi-bookshelf/lib/utils/');
 
+const nodemailer = require('nodemailer');
+
 /**
  * A set of functions called "actions" for `Email`
  */
 
 module.exports = {
+
+  /**
+   * Send an e-mail
+   *
+   * @param {Object} options
+   * @param {Function} cb
+   *
+   * @return {Promise}
+   */
+
+  send: function(options, cb) {
+    return new Promise(function(resolve, reject){
+      try {
+        // Format transport config.
+        let transportConfig;
+        if (strapi.api.email.config.smtp && strapi.api.email.config.smtp.service && strapi.api.email.config.smtp.service.name) {
+          transportConfig = {
+            service: strapi.api.email.config.smtp.service.name,
+            auth: {
+              user: strapi.api.email.config.smtp.service.user,
+              pass: strapi.api.email.config.smtp.service.pass
+            }
+          };
+        }
+        // Init the transporter.
+        const transporter = nodemailer.createTransport(transportConfig);
+
+        // Check the callback type.
+        cb = _.isFunction(cb) ? cb : _.noop;
+
+        // Default values.
+        options = _.isObject(options) ? options : {};
+        options.from = strapi.api.email.config.smtp.from || '';
+        options.text = options.text || options.html;
+        options.html = options.html || options.text;
+
+        console.log(options);
+        console.log('from: '+ options.from);
+        // Register the `email` object in the database.
+        strapi.services.email.add(_.assign({
+          sent: false
+        }, options)).then(
+          (email) => {
+            // Send the email.
+            transporter.sendMail({
+              from: email.from,
+              to: email.to,
+              subject: email.subject,
+              text: email.text,
+              html: email.html
+            }, function (err) {
+              if (err) {
+                console.log(err);
+                cb(err);
+                reject(err);
+              } else {
+                console.log("send ok");
+                // update true
+              }
+            });
+
+          },
+          (error) => {
+            reject (error)
+          }
+        )
+
+      } catch (err) {
+        reject(err);
+      }
+    })
+  },
+
+
   /**
    * Promise to test associations emails.
    *

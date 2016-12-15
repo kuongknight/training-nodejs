@@ -1,6 +1,6 @@
 {
   "smtp": {
-    "from": "<no-reply@website.com>",
+    "from": "adminy@mttjsc.com",
     "service": {
       "name": "",
       "user": "",

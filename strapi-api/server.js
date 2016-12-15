@@ -6,7 +6,7 @@
  *
  * This is handy in situations where the Strapi CLI is not relevant or useful.
  */
-
+require('app-module-path').addPath(__dirname + '/lib');
 process.chdir(__dirname);
 
 (function () {
