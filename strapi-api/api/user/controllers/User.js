@@ -184,12 +184,13 @@ module.exports = {
           username: data.username,
           password: MD5(data.password).toString(),
           active: false,
-          email: data.email
+          email: data.email,
+          token: MD5(new Date() +  data.username + data.email).toString()
         }
         user = yield strapi.services.user.add(user);
         if (user && user.username) {
-        const email = yield new ActiveEmailGenerator(user);
-        strapi.services.email.send(email);
+          const email = yield new ActiveEmailGenerator(user);
+          strapi.services.email.send(email);
           user.password = data.password;
           ctx.body = user;
           return ctx;

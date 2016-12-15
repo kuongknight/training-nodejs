@@ -5,7 +5,7 @@ const validate = createValidator({
   username: [required, maxLength(100)],
   password: [required, maxLength(100)],
   rePassword: [match('password')],
-  email: [email]
+  email: [required, email]
 });
 export default memoize(10)(validate);
 

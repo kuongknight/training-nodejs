@@ -52,15 +52,11 @@ module.exports = {
         options.from = strapi.api.email.config.smtp.from || '';
         options.text = options.text || options.html;
         options.html = options.html || options.text;
-
-        console.log(options);
-        console.log('from: '+ options.from);
         // Register the `email` object in the database.
-        strapi.services.email.add(_.assign({
-          sent: false
-        }, options)).then(
+        const addMail = strapi.services.email.add(_.assign({sent: false}, options));
+        addMail.then(
           (email) => {
-            // Send the email.
+            console.log(email);
             transporter.sendMail({
               from: email.from,
               to: email.to,
@@ -76,13 +72,13 @@ module.exports = {
                 console.log("send ok");
                 // update true
               }
-            });
-
-          },
-          (error) => {
-            reject (error)
-          }
-        )
+            })
+         })
+         addMail.catch(
+           error => {
+             reject(error)
+           }
+         )
 
       } catch (err) {
         reject(err);
@@ -162,7 +158,7 @@ module.exports = {
     return new Promise(function(resolve, reject) {
       Email.forge(values).save()
         .then(function(email) {
-          resolve(email);
+          resolve(email? email.toJSON() : null);
         })
         .catch(function(err) {
           reject(err);

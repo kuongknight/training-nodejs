@@ -1,10 +1,10 @@
 {
   "smtp": {
-    "from": "adminy@mttjsc.com",
+    "from": "admin@mttjsc.com",
     "service": {
-      "name": "",
-      "user": "",
-      "pass": ""
+      "name": "gmail",
+      "user": "discovery.amazing.bk@gmail.com",
+      "pass": "cuongbk@3991"
     }
   }
 }
