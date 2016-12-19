@@ -4,6 +4,7 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import {DropdownButton, MenuItem, Pagination} from 'react-bootstrap'
 import * as bookActions from 'redux/modules/book'
 import {initialize} from 'redux-form'
+import ConfirmDialog from 'components/ConfirmDialog/ConfirmDialog'
 
 @connect(
   state => ({books: state.book.data}),
@@ -18,8 +19,15 @@ export default class BookList extends Component {
     initialize: PropTypes.func.isRequired
   }
   handledSelect = (eventKey) => console.log(eventKey);
+  handlDelete = (book) => {
+    this.refs.confirm
+    .show('Delete book: ' + book.name)
+    .then(() => {
+      this.props.deleteBook(book);
+    })
+  }
   render() {
-    const {books, editStart, deleteBook} = this.props
+    const {books, editStart} = this.props
     const styles = require('./BookList.scss');
     return (
       <div className={styles.bookList}>
@@ -48,7 +56,7 @@ export default class BookList extends Component {
                     <TableRowColumn className={styles.noOverflow}>
                       <DropdownButton id={book.id} bsStyle="info" title="Action" >
                          <MenuItem eventKey="EDIT_BOOK" onClick={() => {editStart(book); this.props.initialize('book', book);} }>Edit</MenuItem>
-                         <MenuItem eventKey="DEL_BOOK" onClick={()=> deleteBook(book)}>Delete</MenuItem>
+                         <MenuItem eventKey="DEL_BOOK" onClick={()=> this.handlDelete(book)}>Delete</MenuItem>
                       </DropdownButton>
                     </TableRowColumn>
                   </TableRow>
@@ -68,6 +76,7 @@ export default class BookList extends Component {
             onSelect={this.handledSelect} />
           </div>
         }
+        <ConfirmDialog ref="confirm" />
       </div>
     )
   }

@@ -1,51 +1,47 @@
-import React, {Component, PropTypes} from 'react'
-import Dialog from 'material-ui/Dialog'
-import FlatButton from 'material-ui/FlatButton'
+import React, {Component} from 'react'
+import {Modal, Button} from 'react-bootstrap'
 
 export default class ConfirmDialog extends Component {
-  static propTypes = {
-    onConfirm: PropTypes.func.isRequired,
-    content: PropTypes.string.isRequired,
-    open: PropTypes.bool.isRequired
-  }
   constructor(props) {
     super(props);
-    this.state = { open: props.open}
+    this.state = { show: false}
+    this.actions = {}
+  }
+  show = (content) => {
+    this.setState({content: content, show: true});
+    return new Promise((reslove, reject)=> {
+      this.actions.confirm = reslove;
+      this.actions.cannel = reject;
+    })
   }
 
-  handleOpen = () => {
-    this.setState({open: true});
+  handleConfirm = () => {
+    this.actions.confirm();
+    this.setState({show: false});
   };
 
   handleClose = () => {
-    this.setState({open: false});
+    this.actions.cannel();
+    this.setState({show: false});
   };
 
   render() {
-    const {onConfirm, content} = this.props
-    const actions = [
-      <FlatButton
-        label="Cancel"
-        primary
-        onTouchTap={() => { this.handleClose(); onConfirm();} }
-      />,
-      <FlatButton
-        label="Submit"
-        primary
-        disabled
-        onTouchTap={this.handleClose}
-      />,
-    ];
-
     return (
-        <Dialog
-          title="Are you sure to invoke this action?"
-          actions={actions}
-          modal
-          open={this.state.open}
-        >
-          {content}
-        </Dialog>
+        <Modal show={this.state.show} dialogClassName="comfirm-modal">
+          <Modal.Header>
+            <Modal.Title>Are you sure?</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            {this.state.content}
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button onClick={this.handleClose}>Cannel</Button>
+            <Button onClick={this.handleConfirm} bsStyle="primary">Submit</Button>
+          </Modal.Footer>
+
+        </Modal>
     );
   }
 }
