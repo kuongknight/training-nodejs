@@ -12,6 +12,10 @@
           "password" : "123456",
           "database" : "fak"
       },
+      "pool": {
+        "min": 2,
+        "max": 10
+      },
       "migrations": {
         "tableName": "migrations"
       }

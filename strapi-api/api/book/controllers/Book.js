@@ -13,6 +13,7 @@ module.exports = {
 
   find: function * () {
     try {
+      console.log(strapi);
       this.body = yield strapi.services.book.fetchAll(this.query);
     } catch (err) {
       this.body = err;

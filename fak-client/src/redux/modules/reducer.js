@@ -6,6 +6,7 @@ import {reducer as form} from 'redux-form';
 import book from './book'
 import auth from './auth'
 import register from './register'
+import activeAccount from './active'
 export default combineReducers({
   routing: routerReducer,
   reduxAsyncConnect,
@@ -13,5 +14,6 @@ export default combineReducers({
   pagination,
   book,
   auth,
-  register
+  register,
+  activeAccount
 });

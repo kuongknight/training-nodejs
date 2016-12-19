@@ -5,6 +5,11 @@
       "action": "checkName",
       "policies": []
     },
+    "POST /active/:token": {
+      "controller": "User",
+      "action": "active",
+      "policies": []
+    },
     "POST /login": {
       "controller": "User",
       "action": "login",

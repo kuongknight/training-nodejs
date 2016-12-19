@@ -65,7 +65,6 @@ module.exports = {
               html: email.html
             }, function (err) {
               if (err) {
-                console.log(err);
                 cb(err);
                 reject(err);
               } else {
@@ -99,7 +98,6 @@ module.exports = {
         withRelated: ['createdBy']
       })
         .then(function(email) {
-          console.log(email.related('createdBy'));
           resolve(email);
         })
         .catch(function(err) {

@@ -19,7 +19,7 @@ module.exports = {
       if (data && (data.username || data.email) ) {
         let user = null;
         if (data.username) {
-          user = yield strapi.services.user.findByU_P({
+          user = yield strapi.services.user.findOne({
             username: data.username
           });
           if (!_.isNull(user)) {
@@ -27,7 +27,7 @@ module.exports = {
           }
         }
         if (data.email) {
-          user = yield strapi.services.user.findByU_P({
+          user = yield strapi.services.user.findOne({
             email: data.email
           });
           if (!_.isNull(user)) {
@@ -47,6 +47,31 @@ module.exports = {
       }
       return ctx;
   },
+  active: function * () {
+    const ctx = this;
+    const {token} = this.params;
+    console.log(token);
+    try {
+      if (token) {
+        let user = yield strapi.services.user.findOne({token});
+        if (user && user.username ){
+          user = yield strapi.services.user.edit(user,{token: null, active: true});
+          ctx.body = {
+            username: user.username
+          }
+          return ctx;
+        }
+      }
+    }catch (err) {
+      ctx.status = 400;
+      ctx.body = err;
+      return ctx;
+    }
+    console.log('have error');
+    ctx.status = 400;
+    ctx.body = {error: 'Have error when try active user!'};
+    return ctx;
+  },
 
   login: function * () {
       const ctx = this;
@@ -55,7 +80,7 @@ module.exports = {
         let password = ctx.request.body.password;
         let remember = ctx.request.body.remember;
         if (username && password ) {
-          let user = yield strapi.services.user.findByU_P({
+          let user = yield strapi.services.user.findOne({
             username: username,
             password: MD5(password).toString()
           });

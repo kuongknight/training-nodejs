@@ -42,7 +42,7 @@ module.exports = {
    * @return {Promise}
    */
 
-   findByU_P: function (params) {
+   findOne: function (params) {
      return new Promise(function(resolve, reject) {
        User.where(params).fetch()
          .then(function(user) {
@@ -96,7 +96,7 @@ module.exports = {
     return new Promise(function(resolve, reject) {
       User.forge(params).save(values, {path: true})
         .then(function(user) {
-          resolve(user);
+          resolve(user.toJSON());
         })
         .catch(function(err) {
           reject(err);
